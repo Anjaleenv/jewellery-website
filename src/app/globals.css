@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-ivory: #F5F5DC;
+  --color-gold: #C5A059;
+  --color-gold-light: #E5D0A5;
+  --color-deepblack: #1A1A1A;
+  
+  --font-heading: var(--font-heading), 'Cormorant Garamond', serif;
+  --font-body: var(--font-body), 'Inter', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 68%);
+    color: var(--color-ivory);
+    min-height: 100vh;
+    position: relative;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.22) 0.5px, transparent 0.8px),
+      radial-gradient(circle at 78% 82%, rgba(255, 255, 255, 0.18) 0.5px, transparent 0.9px);
+    background-size: 3px 3px, 4px 4px;
+    opacity: 0.02;
+    z-index: 40;
+  }
+
+  @media (pointer: fine) {
+    body.luxury-cursor-active,
+    body.luxury-cursor-active a,
+    body.luxury-cursor-active button {
+      cursor: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes luxury-shimmer-sweep {
+  0% {
+    -webkit-mask-position: 180% 0;
+    mask-position: 180% 0;
+  }
+  100% {
+    -webkit-mask-position: -160% 0;
+    mask-position: -160% 0;
+  }
+}
+
+@layer components {
+  .luxury-heading-shimmer {
+    -webkit-mask-image: linear-gradient(
+      105deg,
+      rgba(0, 0, 0, 0.35) 36%,
+      rgba(0, 0, 0, 0.98) 49%,
+      rgba(0, 0, 0, 0.35) 62%
+    );
+    mask-image: linear-gradient(
+      105deg,
+      rgba(0, 0, 0, 0.35) 36%,
+      rgba(0, 0, 0, 0.98) 49%,
+      rgba(0, 0, 0, 0.35) 62%
+    );
+    -webkit-mask-size: 250% 100%;
+    mask-size: 250% 100%;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    animation: luxury-shimmer-sweep 5s ease-in-out infinite;
+    will-change: mask-position, -webkit-mask-position;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .luxury-heading-shimmer {
+      animation: none;
+    }
+  }
 }
